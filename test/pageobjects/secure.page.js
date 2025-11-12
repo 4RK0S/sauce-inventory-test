@@ -1,13 +1,10 @@
 import BasePage from './page';
 
 export default class SecurePage extends BasePage {
-    constructor(page) {
-        super(page);
-        this.pageTitle = this.page.locator('.title');
-        this.pageUrlRegex = /inventory.html/;
-    }
+    get pageTitle() {return $('.title'); }
+
 
     async getPageTitleText() {
-        return this.pageTitle.textContent();
+        return this.pageTitle.getText();
     }
 }

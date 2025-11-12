@@ -1,31 +1,24 @@
 import BasePage from './page';
-import { expect } from '@playwright/test';
 
 export default class LoginPage extends BasePage {
-    constructor(page) {
-        super(page);
-        this.userNameInput = this.page.locator('#user-name');
-        this.passwordInput = this.page.locator('#password');
-        this.loginButton = this.page.locator('#login-button');
-        this.errorMessage = this.page.locator('[data-test="error"]');
+    get usernameInput() { return $('[data-test="username"]'); }
+    get passwordInput() { return $('[data-test="password"]'); }
+    get loginButton() { return $('[data-test="login-button"]'); }
+    get errorMessage() { return $('[data-test="error"]'); }
+
+    async goto() {
+        await super.goto();
     }
 
-    /**
-     * @param {string} username
-     * @param {string} password
-     */
     async login(username, password) {
-        await this.userNameInput.fill(username);
-        await this.passwordInput.fill(password);
+        await this.usernameInput.setValue(username);
+        await this.passwordInput.setValue(password);
         await this.loginButton.click();
-    }
-    
-    async getErrorMessage() {
-        return this.errorMessage.textContent();
     }
 
     // ASSERTIONS 
-    async assertSuccessfulLogin() {
-        await expect(this.page).toHaveURL(/inventory.html/); 
+    async assertSuccessfulLogin(username, password) {
+        await this.login(username, password);
+        await expect(browser).toHaveUrlContaining('inventory.html');
     }
 }

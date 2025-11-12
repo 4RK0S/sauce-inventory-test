@@ -1,13 +1,10 @@
-export default class BasePage {
-    /**
-     * @param {import('@playwright/test').Page} page
-     */
-    constructor(page) {
-        this.page = page;
+export default class basepage {
+    constructor() {
         this.baseUrl = 'https://www.saucedemo.com/';
     }
 
-    async goto() {
-        await this.page.goto(this.baseUrl);
+    async goto(path = ' ') {
+        await browser.url(this.baseUrl + path);
     }
+    
 }
